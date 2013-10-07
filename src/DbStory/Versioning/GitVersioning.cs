@@ -21,8 +21,11 @@ namespace DbStory.Versioning
 
         public void AddModifiedFilesToVersioning(string commitMessage)
         {
+            Repository.Init(repositoryPath, false);
+
             using (var repository = new Repository(repositoryPath))
             {
+
                 var filesToAddToCommit = FilesToCommit(repository);
 
                 if (!filesToAddToCommit.Any())

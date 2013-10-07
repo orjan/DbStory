@@ -17,9 +17,10 @@ namespace DbStory.Storage
         public void Store(IEnumerable<ProgrammablityContent> contents)
         {
             var directories = contents.Select(x => rootDirectory + x.RelativeDirectoryName).Distinct();
-            Parallel.ForEach(directories, RecreateDirectory);
+            Parallel.ForEach(directories, new ParallelOptions() {MaxDegreeOfParallelism = 1},RecreateDirectory);
+
             
-            Parallel.ForEach(contents, StoreFile);
+            Parallel.ForEach(contents, new ParallelOptions() {MaxDegreeOfParallelism = 1}, StoreFile);
         }
 
         private static void RecreateDirectory(string c)
